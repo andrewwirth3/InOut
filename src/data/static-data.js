@@ -56,14 +56,16 @@ const events = [
     {
         id: 1,
         seriesId: 1,
+        desc: 'Softball 1',
         date: new Date('2018-01-01'),
         min: 2,
-        count: 0,
+        count: 1,
         total: 4
     },
     {
         id: 2,
         seriesId: 1,
+        desc: 'Softball 2',
         date: new Date('2018-02-01'),
         min: 2,
         count: 0,
@@ -72,6 +74,7 @@ const events = [
     {
         id: 3,
         seriesId: 1,
+        desc: 'Softball 3',
         date: new Date('2018-03-01'),
         min: 2,
         count: 0,
@@ -80,6 +83,7 @@ const events = [
     {
         id: 4,
         seriesId: 1,
+        desc: 'Softball 4',
         date: new Date('2018-04-01'),
         min: 2,
         count: 0,
@@ -88,6 +92,7 @@ const events = [
     {
         id: 5,
         seriesId: 1,
+        desc: 'Softball 5',
         date: new Date('2018-05-01'),
         min: 2,
         count: 0,
@@ -100,7 +105,7 @@ const responses = [
         id: 1,
         eventId: 1,
         personId: 1,
-        status: null
+        status: 1
     },
     {
         id: 1,
@@ -112,7 +117,7 @@ const responses = [
         id: 1,
         eventId: 2,
         personId: 1,
-        status: null
+        status: 0
     },
     {
         id: 1,
@@ -167,4 +172,4 @@ const staticData = {
     responses
 };
 
-export default staticData;
+export { staticData };

@@ -3,11 +3,18 @@
     <ActionBar class="action-bar" title="Home"/>
     <ScrollView>
         <ListView for="(evt, index) in events">
-            <!-- <v-template v-bind:class="['container-item', {'accept': evt.response === 1}, {'reject': evt.response === 0 }, {'none': evt.response === null}]" > -->
             <v-template>
-                <FlexboxLayout>
-                    <Label :text="evt.date" alignSelf="center" height="70" color="white"/>
-                </FlexboxLayout>
+                <StackLayout class="container p-y-10 p-x-5" >
+                    <GridLayout rows="50, auto, auto" 
+                                columns="*, auto" 
+                                v-bind:class="['container-item', 'p-x-5', {'accept': evt.response === 1}, {'reject': evt.response === 0 }]">
+                        <Label class="h2" :text="evt.desc" row="0" col="0" rowSpan="2" background="red" color="white" alignSelf="center"></Label>
+                        <Label :text="getFormattedDate(evt.date)" row="0" col="1" background="greed" color="white"></Label>
+                        <Label text="Event Location" row="1" col="1" background="blue" color="white"></Label>
+                        <Progress class="progress m-5" :value="getProgressValue(evt)" row="2" col="0" colSpan="2" />
+                        
+                    </GridLayout>
+                </StackLayout>
             </v-template>
         </ListView>
     </ScrollView>
@@ -15,177 +22,8 @@
 </template>
 
 <script>
-// import { staticData } from '../data/static-data.js';
-import { mapState } from 'vuex';
-
-const persons = [
-    {
-        id: 1,
-        name: 'Admin',
-        phone: 3191112233,
-        email: 'test@gmail.com',
-        status: 'A'
-    },
-    {
-        id: 2,
-        name: 'Test',
-        phone: 3191114444,
-        email: 'test1@gmail.com',
-        status: 'A'
-    }
-];
-
-const squads = [
-    {
-        id: 1,
-        name: 'Squad 1',
-        status: 'A',
-        Created: new Date(),
-        Owner: 1
-    }
-];
-
-const squadMembers = [
-    {
-        id: 1,
-        squadId: 1,
-        personId: 1,
-        status: 'A',
-        sequence: 1
-    },
-    {
-        id: 2,
-        squadId: 1,
-        personId: 2,
-        status: 'A',
-        sequence: 1
-    }
-];
-
-const series = [
-    {
-        id: 1,
-        squadId: 1,
-        start: new Date('2018-01-01'),
-        end: new Date('2018-05-01'),
-        status: 'A'
-    }
-];
-
-const events = [
-    {
-        id: 1,
-        seriesId: 1,
-        date: new Date('2018-01-01'),
-        min: 2,
-        count: 0,
-        total: 4
-    },
-    {
-        id: 2,
-        seriesId: 1,
-        date: new Date('2018-02-01'),
-        min: 2,
-        count: 0,
-        total: 4
-    },
-    {
-        id: 3,
-        seriesId: 1,
-        date: new Date('2018-03-01'),
-        min: 2,
-        count: 0,
-        total: 4
-    },
-    {
-        id: 4,
-        seriesId: 1,
-        date: new Date('2018-04-01'),
-        min: 2,
-        count: 0,
-        total: 4
-    },
-    {
-        id: 5,
-        seriesId: 1,
-        date: new Date('2018-05-01'),
-        min: 2,
-        count: 0,
-        total: 4
-    }
-];
-
-const responses = [
-    {
-        id: 1,
-        eventId: 1,
-        personId: 1,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 1,
-        personId: 2,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 2,
-        personId: 1,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 2,
-        personId: 2,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 3,
-        personId: 1,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 3,
-        personId: 2,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 4,
-        personId: 1,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 4,
-        personId: 2,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 5,
-        personId: 1,
-        status: null
-    },
-    {
-        id: 1,
-        eventId: 5,
-        personId: 2,
-        status: null
-    }
-];
-
-const staticData = {
-    persons,
-    squads,
-    squadMembers,
-    series,
-    events,
-    responses
-};
+import { staticData } from '../data/static-data.js';
+const moment = require('moment');
 
 export default {
     data() {
@@ -196,12 +34,9 @@ export default {
             responses: []
         };
     },
-    //computed: mapState(['user', 'squads', 'events', 'responses']),
     mounted() {
-        
         const userId = 1;
         let user = null;
-        console.log(`userid = ${userId}`);
         for (const person of staticData.persons) {
             if (person.id == userId) {
                 user = person;
@@ -233,39 +68,61 @@ export default {
                             events.push(evt);
                             break;
                         }
-                    } 
+                    }
                     responses.push(res);
                 }
             }
 
             this.events = events;
-            console.log(`events: ${JSON.stringify(this.events)}`);
             this.$store.commit('setUser', user);
             this.$store.commit('setSquads', squads);
             this.$store.commit('setEvents', events);
             this.$store.commit('setResponses', responses);
         }
+    },
+    methods: {
+        getFormattedDate(d) {
+            if (d instanceof Date) {
+                let m = moment(d);
+                if (m.isValid()) {
+                    return m.format('ddd, MMM DD [at] hh:mm a');
+                }
+                return d.toLocaleString('en-US');
+            } else if (typeof d == 'string') {
+                return d;
+            } else if (d) {
+                return d.toString();
+            }
+            return '';
+        },
+        getProgressValue(e) {
+            if (!e) return 0;
+
+            let val = e.count / e.min * 100;
+            if (val >= 100) return 100;
+            return Math.floor(val);
+        }
     }
 };
 </script>
 
-<style scoped lang="scss">
-.container-item {
-	padding: 10;
+<style lang="scss">
+.container {
+	> .container-item {
+		border-left-color: white;
+		border-left-width: 10;
+		border-right-color: white;
+		border-right-width: 10;
 
-    >.none {
-        border-left: 5 solid grey;
-        border-right: 5 solid grey;
-    }
+		&.accept {
+			border-left-color: green;
+			border-right-color: green;
+		}
 
-    >.accept {
-        border-left: 5 solid green;
-        border-right: 5 solid green;
-    }
-
-    >.reject {
-        border-left: 5 solid red;
-        border-right: 5 solid red;
-    }
+		&.reject {
+			border-left-color: red;
+			border-right-color: red;
+		}
+	}
 }
 </style>
