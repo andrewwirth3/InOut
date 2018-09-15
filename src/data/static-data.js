@@ -59,7 +59,8 @@ const events = [
         desc: 'Softball 1',
         date: new Date('2018-01-01'),
         min: 2,
-        count: 1,
+        in: 3,
+        out: 1,
         total: 4
     },
     {
@@ -68,7 +69,8 @@ const events = [
         desc: 'Softball 2',
         date: new Date('2018-02-01'),
         min: 2,
-        count: 0,
+        in: 0,
+        out: 1,
         total: 4
     },
     {
@@ -77,7 +79,8 @@ const events = [
         desc: 'Softball 3',
         date: new Date('2018-03-01'),
         min: 2,
-        count: 0,
+        in: 0,
+        out: 1,
         total: 4
     },
     {
@@ -86,7 +89,8 @@ const events = [
         desc: 'Softball 4',
         date: new Date('2018-04-01'),
         min: 2,
-        count: 0,
+        in: 0,
+        out: 1,
         total: 4
     },
     {
@@ -95,7 +99,8 @@ const events = [
         desc: 'Softball 5',
         date: new Date('2018-05-01'),
         min: 2,
-        count: 0,
+        in: 0,
+        out: 1,
         total: 4
     }
 ];

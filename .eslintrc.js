@@ -7,6 +7,11 @@ module.exports = {
 	rules: {
 		// override/add rules settings here, such as:
 		'vue/no-unused-vars': 'error',
-		indent: ['error', 4]
+		indent: ['error', 4, { flatTernaryExpressions: true }],
+		'multiline-ternary': ['error', 'always-multiline']
+	},
+	env: {
+		browser: true,
+		node: true
 	}
 };

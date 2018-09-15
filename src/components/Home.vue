@@ -2,17 +2,36 @@
   <Page class="page">
     <ActionBar class="action-bar" title="Home"/>
     <ScrollView>
-        <ListView for="(evt, index) in events">
+        <ListView for="(event, index) in events">
             <v-template>
                 <StackLayout class="container p-y-10 p-x-5" >
-                    <GridLayout rows="50, auto, auto" 
-                                columns="*, auto" 
-                                v-bind:class="['container-item', 'p-x-5', {'accept': evt.response === 1}, {'reject': evt.response === 0 }]">
-                        <Label class="h2" :text="evt.desc" row="0" col="0" rowSpan="2" background="red" color="white" alignSelf="center"></Label>
-                        <Label :text="getFormattedDate(evt.date)" row="0" col="1" background="greed" color="white"></Label>
-                        <Label text="Event Location" row="1" col="1" background="blue" color="white"></Label>
-                        <Progress class="progress m-5" :value="getProgressValue(evt)" row="2" col="0" colSpan="2" />
-                        
+                    <GridLayout rows="auto,auto,auto,15,auto" columns="*, auto" class="p-x-5">
+                        <Label :text="event.desc" row="0" col="0" rowSpan="3" color="white" class="h1" ></Label>
+                        <Label text="Event Location" row="0" col="1" class="footnote"></Label>
+                        <Label :text="getFormattedDate(event.date)" row="1" col="1" class="footnote"></Label>
+                        <Label :text="getFormattedTime(event.date)" row="2" col="1" class="footnote"></Label>
+                        <FlexboxLayout flexDirection="row" 
+                                       width="100%" 
+                                       justifyContent="stretch" 
+                                       class="p-x-10 p-y-5" 
+                                       row="3" 
+                                       col="0" 
+                                       colSpan="2">
+                            <Label text="IN" textWrap="true" class="in" :width="getProgressValue(event, 'in')" />
+                            <Label text=" " textWrap="true" class="none" :width="getProgressValue(event, 'none')" />
+                            <Label text="OUT" textWrap="true" class="out" :width="getProgressValue(event, 'out')" />
+                        </FlexboxLayout>
+                        <FlexboxLayout flexDirection="row" 
+                                       width="75%" 
+                                       class="p-x-25" 
+                                       row="4" 
+                                       col="0" 
+                                       colSpan="2" 
+                                       justifyContent="space-between">
+                            <Label class="fa h2" color="white" :text="'fa-thumbs-up' | fonticon" @tap="onInTap(event)" ></Label> 
+                            <Label :text="event.min" color="white"></Label>
+                            <Label class="fa h2" color="white" :text="'fa-thumbs-down' | fonticon" @tap="onOutTap(event)" ></Label>
+                        </FlexboxLayout>
                     </GridLayout>
                 </StackLayout>
             </v-template>
@@ -23,6 +42,7 @@
 
 <script>
 import { staticData } from '../data/static-data.js';
+
 const moment = require('moment');
 
 export default {
@@ -82,47 +102,49 @@ export default {
     },
     methods: {
         getFormattedDate(d) {
-            if (d instanceof Date) {
-                let m = moment(d);
-                if (m.isValid()) {
-                    return m.format('ddd, MMM DD [at] hh:mm a');
-                }
-                return d.toLocaleString('en-US');
-            } else if (typeof d == 'string') {
-                return d;
-            } else if (d) {
-                return d.toString();
+            let m = moment(d);
+            if (m.isValid()) {
+                return m.format('ddd, MMM DD');
+            }
+            return d.toLocaleString('en-US');
+        },
+        getFormattedTime(d) {
+            let m = moment(d);
+            if (m.isValid()) {
+                return m.format('hh:mm a');
             }
             return '';
         },
-        getProgressValue(e) {
-            if (!e) return 0;
-
-            let val = e.count / e.min * 100;
-            if (val >= 100) return 100;
-            return Math.floor(val);
+        getProgressValue(e, type) {
+            if (!e || e === {}) return 0;
+            type = type.toLowerCase();
+            let value = e.total - (e.in + e.out);
+            switch (type) {
+            case 'in':
+                value = e.in;
+                break;
+            case 'out':
+                value = e.out;
+                break;
+            }
+            value = Math.floor(value / e.total * 100);
+            return value == 0 ? value : `${value}%`;
         }
     }
 };
 </script>
 
 <style lang="scss">
-.container {
-	> .container-item {
-		border-left-color: white;
-		border-left-width: 10;
-		border-right-color: white;
-		border-right-width: 10;
-
-		&.accept {
-			border-left-color: green;
-			border-right-color: green;
-		}
-
-		&.reject {
-			border-left-color: red;
-			border-right-color: red;
-		}
-	}
+.in {
+	color: green;
+	background: green;
+}
+.out {
+	color: red;
+	background-color: red;
+}
+.none {
+	color: lightgrey;
+	background-color: lightgrey;
 }
 </style>
