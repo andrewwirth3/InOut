@@ -58,50 +58,55 @@ const events = [
         seriesId: 1,
         desc: 'Softball 1',
         date: new Date('2018-01-01'),
-        min: 2,
-        in: 3,
-        out: 1,
-        total: 4
+        location: 'Bridsall',
+        min: 10,
+        in: 8,
+        out: 0,
+        total: 15
     },
     {
         id: 2,
         seriesId: 1,
         desc: 'Softball 2',
         date: new Date('2018-02-01'),
-        min: 2,
-        in: 0,
+        location: 'Bridsall',
+        min: 10,
+        in: 12,
         out: 1,
-        total: 4
+        total: 15
     },
     {
         id: 3,
         seriesId: 1,
         desc: 'Softball 3',
         date: new Date('2018-03-01'),
-        min: 2,
-        in: 0,
-        out: 1,
-        total: 4
+        location: 'Bridsall',
+        min: 9,
+        in: 4,
+        out: 2,
+        total: 15
     },
     {
         id: 4,
         seriesId: 1,
         desc: 'Softball 4',
         date: new Date('2018-04-01'),
-        min: 2,
-        in: 0,
-        out: 1,
-        total: 4
+        location: 'Bridsall',
+        min: 9,
+        in: 9,
+        out: 3,
+        total: 15
     },
     {
         id: 5,
         seriesId: 1,
         desc: 'Softball 5',
         date: new Date('2018-05-01'),
-        min: 2,
-        in: 0,
-        out: 1,
-        total: 4
+        location: 'Bridsall',
+        min: 9,
+        in: 6,
+        out: 4,
+        total: 15
     }
 ];
 

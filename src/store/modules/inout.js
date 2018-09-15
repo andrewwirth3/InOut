@@ -17,6 +17,14 @@ const mutations = {
     setEvents(state, events) {
         state.events = events;
     },
+    setEvent(state, event) {
+        for (let index = 0; index < state.events.length; index++) {
+            const element = state.events[index];
+            if (element.id == event.id) {
+                state.events[index] = event;
+            }
+        }
+    },
     setResponses(state, responses) {
         state.responses = responses;
     }

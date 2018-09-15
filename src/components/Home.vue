@@ -2,14 +2,14 @@
   <Page class="page">
     <ActionBar class="action-bar" title="Home"/>
     <ScrollView>
-        <ListView for="(event, index) in events">
+        <ListView for="(event, index) in events" @itemTap="onItemTap">
             <v-template>
-                <StackLayout class="container p-y-10 p-x-5" >
-                    <GridLayout rows="auto,auto,auto,15,auto" columns="*, auto" class="p-x-5">
+                <StackLayout class="container p-y-15 p-x-5" >
+                    <GridLayout rows="auto,auto,auto,13,auto" columns="*, auto" class="p-x-5">
                         <Label :text="event.desc" row="0" col="0" rowSpan="3" color="white" class="h1" ></Label>
-                        <Label text="Event Location" row="0" col="1" class="footnote"></Label>
-                        <Label :text="getFormattedDate(event.date)" row="1" col="1" class="footnote"></Label>
-                        <Label :text="getFormattedTime(event.date)" row="2" col="1" class="footnote"></Label>
+                        <Label :text="event.location" row="0" col="1" class="footnote pull-right"></Label>
+                        <Label :text="getFormattedDate(event.date)" row="1" col="1" class="footnote pull-right"></Label>
+                        <Label :text="getFormattedTime(event.date)" row="2" col="1" class="footnote pull-right"></Label>
                         <FlexboxLayout flexDirection="row" 
                                        width="100%" 
                                        justifyContent="stretch" 
@@ -18,19 +18,32 @@
                                        col="0" 
                                        colSpan="2">
                             <Label text="IN" textWrap="true" class="in" :width="getProgressValue(event, 'in')" />
-                            <Label text=" " textWrap="true" class="none" :width="getProgressValue(event, 'none')" />
+                            <Label text=" " textWrap="true" class="none" flexGrow="2" />
                             <Label text="OUT" textWrap="true" class="out" :width="getProgressValue(event, 'out')" />
                         </FlexboxLayout>
                         <FlexboxLayout flexDirection="row" 
-                                       width="75%" 
-                                       class="p-x-25" 
+                                       width="90%" 
+                                       class="" 
                                        row="4" 
                                        col="0" 
                                        colSpan="2" 
                                        justifyContent="space-between">
-                            <Label class="fa h2" color="white" :text="'fa-thumbs-up' | fonticon" @tap="onInTap(event)" ></Label> 
-                            <Label :text="event.min" color="white"></Label>
-                            <Label class="fa h2" color="white" :text="'fa-thumbs-down' | fonticon" @tap="onOutTap(event)" ></Label>
+                            <FlexboxLayout flexDirection="row">
+                                <Label :text="`${evenOutDigits(event, event.in)}/${event.min}`" class="footnote" />
+                                <Label v-bind:class="['h3', {'fas': event.response == 1}, {'far': event.response != 1}]" 
+                                   :color="event.response == 1 ? 'green' : 'white'" 
+                                   :text="'fa-thumbs-up' | fonticon" 
+                                   @tap="onInTap(event)" 
+                                   class="m-l-5 pull-right" />
+                            </FlexboxLayout>
+                            <FlexboxLayout flexDirection="row">
+                                <Label v-bind:class="['h3', {'fas': event.response == 0}, {'far': event.response != 0}]" 
+                                   :color="event.response == 0 ? 'red' : 'white'" 
+                                   :text="'fa-thumbs-down' | fonticon" 
+                                   @tap="onOutTap(event)" 
+                                   class="m-r-5 pull-right" />
+                                <Label :text="`${evenOutDigits(event, event.out)}/${event.total}`" class="footnote" />
+                            </FlexboxLayout>
                         </FlexboxLayout>
                     </GridLayout>
                 </StackLayout>
@@ -94,13 +107,20 @@ export default {
             }
 
             this.events = events;
-            this.$store.commit('setUser', user);
-            this.$store.commit('setSquads', squads);
-            this.$store.commit('setEvents', events);
-            this.$store.commit('setResponses', responses);
+            this.user = Object.assign([], user);
+            this.squads = Object.assign([], squads);
+            this.events = Object.assign([], events);
+            this.responses = Object.assign([], responses);
+            // this.$store.commit('setUser', Object.assign([], user));
+            // this.$store.commit('setSquads', Object.assign([], squads));
+            // this.$store.commit('setEvents', Object.assign([], events));
+            // this.$store.commit('setResponses', Object.assign([], responses));
         }
     },
     methods: {
+        evenOutDigits(evt, n) {
+            return n <= 9 ? ` ${n}` : n;
+        },
         getFormattedDate(d) {
             let m = moment(d);
             if (m.isValid()) {
@@ -115,20 +135,76 @@ export default {
             }
             return '';
         },
-        getProgressValue(e, type) {
-            if (!e || e === {}) return 0;
-            type = type.toLowerCase();
-            let value = e.total - (e.in + e.out);
-            switch (type) {
+        getProgressValue(evt, type) {
+            if (!evt || evt === {}) return 0;
+            let value = 0;
+            switch (type.toLowerCase()) {
             case 'in':
-                value = e.in;
+                value = evt.in;
                 break;
             case 'out':
-                value = e.out;
+                value = evt.out;
+                break;
+            default:
+                value = evt.total - (evt.in + evt.out);
                 break;
             }
-            value = Math.floor(value / e.total * 100);
+            value = Math.floor(value / evt.total * 100);
             return value == 0 ? value : `${value}%`;
+        },
+        updateEvent(evt, idx, response, inDelta, outDelta) {
+            evt.response = response;
+            if (inDelta != 0) {
+                evt.in += inDelta;
+            }
+            if (outDelta != 0 && evt.out + outDelta >= 0) {
+                evt.out += outDelta;
+            }
+            if (evt.in < 0) {
+                evt.in = 0;
+            }
+            if (evt.out > evt.total) {
+                evt.out = evt.total;
+            }
+            evt.none = evt.total - (evt.in + evt.out);
+            this.$store.commit('setEvent', evt);
+            // update server
+            return evt;
+        },
+        onItemTap() {
+            //(event) {
+            // console.log(`index: ${JSON.stringify(event.index)}`);
+            // console.log(`item: ${JSON.stringify(event.item)}`);
+        },
+        onInTap(evt) {
+            for (let index = 0; index < this.events.length; index++) {
+                const event = this.events[index];
+                if (event.id == evt.id) {
+                    this.updateEvent(
+                        evt, //JSON.parse(JSON.stringify(evt)),
+                        index,
+                        evt.response === 1 ? null : 1,
+                        evt.response === 1 ? -1 : 1,
+                        evt.response === 0 ? -1 : 0
+                    );
+                    break;
+                }
+            }
+        },
+        onOutTap(evt) {
+            for (let index = 0; index < this.events.length; index++) {
+                const event = this.events[index];
+                if (event.id == evt.id) {
+                    this.updateEvent(
+                        evt, //JSON.parse(JSON.stringify(evt)),
+                        index,
+                        evt.response === 0 ? null : 0,
+                        evt.response === 1 ? -1 : 0,
+                        evt.response === 0 ? -1 : 1
+                    );
+                    break;
+                }
+            }
         }
     }
 };
