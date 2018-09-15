@@ -11,7 +11,7 @@ import './styles.scss';
 
 import { TNSFontIcon, fonticon } from 'nativescript-fonticon';
 
-TNSFontIcon.debug = true;
+// TNSFontIcon.debug = true;
 TNSFontIcon.paths = {
     fa: 'fontawesome.css'
 };

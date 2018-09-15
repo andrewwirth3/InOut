@@ -29,20 +29,20 @@
                                        colSpan="2" 
                                        justifyContent="space-between">
                             <FlexboxLayout flexDirection="row">
-                                <Label :text="`${evenOutDigits(event, event.in)}/${event.min}`" class="footnote" />
                                 <Label v-bind:class="['h3', {'fas': event.response == 1}, {'far': event.response != 1}]" 
                                    :color="event.response == 1 ? 'green' : 'white'" 
                                    :text="'fa-thumbs-up' | fonticon" 
                                    @tap="onInTap(event)" 
-                                   class="m-l-5 pull-right" />
+                                   class="m-r-5 m-l-20" />
+                                <Label :text="`${event.in}/${event.min}`" class="footnote" />
                             </FlexboxLayout>
                             <FlexboxLayout flexDirection="row">
+                                <Label :text="`${event.out}/${event.total}`" class="footnote"/>
                                 <Label v-bind:class="['h3', {'fas': event.response == 0}, {'far': event.response != 0}]" 
                                    :color="event.response == 0 ? 'red' : 'white'" 
                                    :text="'fa-thumbs-down' | fonticon" 
                                    @tap="onOutTap(event)" 
-                                   class="m-r-5 pull-right" />
-                                <Label :text="`${evenOutDigits(event, event.out)}/${event.total}`" class="footnote" />
+                                   class="m-l-5 m-r-20" />
                             </FlexboxLayout>
                         </FlexboxLayout>
                     </GridLayout>
