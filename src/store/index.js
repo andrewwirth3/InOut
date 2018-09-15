@@ -9,11 +9,11 @@ const debug = process.env.NODE_ENV !== 'production';
 
 const store = new Vuex.Store({
     modules: {
-        inout
+        main: inout
     },
     strict: debug
 });
 
-Vue.prototype.$store = store;
+// Vue.prototype.$store = store;
 
 module.exports = store;
