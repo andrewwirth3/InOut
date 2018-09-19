@@ -1,7 +1,6 @@
 <template>
-    <Label 
-        text="Squads Not Implemented Yet" 
-        textWrap="true" /> 
+    <Label text="Squads Not Implemented Yet" 
+           textWrap="true" /> 
 </template>
 
 <script>

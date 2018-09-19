@@ -1,7 +1,6 @@
 <template>
-    <Label 
-        text="Settings Not Implemented Yet" 
-        textWrap="true" /> 
+    <Label text="Settings Not Implemented Yet" 
+           textWrap="true" /> 
 </template>
 
 <script>

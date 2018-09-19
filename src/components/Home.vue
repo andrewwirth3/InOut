@@ -1,42 +1,35 @@
 <template>
     <Page class="page">
-        <ActionBar 
-            class="action-bar" 
-            :title="title"
-            backgroundColor="#191919"
-            color="#777777">
-            <ActionItem 
-                @tap="onAddTap"
-                ios.systemIcon="4"
-                ios.position="right"
-                android.systemIcon="ic_menu_add"
-                android.position="actionBar" />
+        <ActionBar class="action-bar" 
+                   :title="title"
+                   backgroundColor="#191919"
+                   color="#777777">
+            <ActionItem @tap="onAddTap"
+                        ios.systemIcon="4"
+                        ios.position="right"
+                        android.systemIcon="ic_menu_add"
+                        android.position="actionBar" />
         </ActionBar>
-        <TabView 
-            androidTabsPosition="bottom"
-            tabBackgroundColor="#191919"
-            tabTextColor="#777777"
-            selectedTabTextColor="green"
-            @tabChange="onTabChange"
-            selectedIndex="1">
-            <TabViewItem 
-                :title="'fa-history' | fonticon" 
-                class="h2 fas">
+        <TabView androidTabsPosition="bottom"
+                 tabBackgroundColor="#191919"
+                 tabTextColor="#777777"
+                 selectedTabTextColor="green"
+                 @tabChange="onTabChange"
+                 selectedIndex="1">
+            <TabViewItem :title="'fa-history' | fonticon" 
+                         class="h2 fas">
                 <my-history />
             </TabViewItem>
-            <TabViewItem 
-                :title="'fa-tasks' | fonticon" 
-                class="h2 fas">
+            <TabViewItem :title="'fa-tasks' | fonticon" 
+                         class="h2 fas">
                 <my-events />
             </TabViewItem>
-            <TabViewItem 
-                :title="'fa-users' | fonticon" 
-                class="h2 fas">
+            <TabViewItem :title="'fa-users' | fonticon" 
+                         class="h2 fas">
                 <my-squads />
             </TabViewItem>
-            <TabViewItem 
-                :title="'fa-wrench' | fonticon" 
-                class="h2 fas">
+            <TabViewItem :title="'fa-wrench' | fonticon" 
+                         class="h2 fas">
                 <my-settings />
             </TabViewItem>
         </TabView>
