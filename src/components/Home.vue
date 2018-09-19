@@ -1,35 +1,46 @@
 <template>
-  <Page class="page">
-    <ActionBar class="action-bar" 
-               :title="title"
-               backgroundColor="#191919"
-               color="#777777">
-        <ActionItem @tap="onAddTap"
-                    ios.systemIcon="4"
-                    ios.position="right"
-                    android.systemIcon="ic_menu_add"
-                    android.position="actionBar" />
-    </ActionBar>
-    <TabView androidTabsPosition="bottom"
-             tabBackgroundColor="#191919"
-             tabTextColor="#777777"
-             selectedTabTextColor="green"
-             @tabChange="onTabChange"
-             selectedIndex="1">
-        <TabViewItem :title="'fa-history' | fonticon" 
-                     class="h2 fas">
-            <my-history />
-        </TabViewItem>
-        <TabViewItem :title="'fa-tasks' | fonticon" 
-                     class="h2 fas">
-            <my-events />
-        </TabViewItem>
-        <TabViewItem :title="'fa-wrench' | fonticon" 
-                     class="h2 fas">
-            <my-settings />
-        </TabViewItem>
-    </TabView>
-  </Page>
+    <Page class="page">
+        <ActionBar 
+            class="action-bar" 
+            :title="title"
+            backgroundColor="#191919"
+            color="#777777">
+            <ActionItem 
+                @tap="onAddTap"
+                ios.systemIcon="4"
+                ios.position="right"
+                android.systemIcon="ic_menu_add"
+                android.position="actionBar" />
+        </ActionBar>
+        <TabView 
+            androidTabsPosition="bottom"
+            tabBackgroundColor="#191919"
+            tabTextColor="#777777"
+            selectedTabTextColor="green"
+            @tabChange="onTabChange"
+            selectedIndex="1">
+            <TabViewItem 
+                :title="'fa-history' | fonticon" 
+                class="h2 fas">
+                <my-history />
+            </TabViewItem>
+            <TabViewItem 
+                :title="'fa-tasks' | fonticon" 
+                class="h2 fas">
+                <my-events />
+            </TabViewItem>
+            <TabViewItem 
+                :title="'fa-users' | fonticon" 
+                class="h2 fas">
+                <my-squads />
+            </TabViewItem>
+            <TabViewItem 
+                :title="'fa-wrench' | fonticon" 
+                class="h2 fas">
+                <my-settings />
+            </TabViewItem>
+        </TabView>
+    </Page>
 </template>
 
 <script>
@@ -37,6 +48,7 @@ import { staticData } from '../data/static-data.js';
 import MyEvents from './MyEvents.vue';
 import MyHistory from './MyHistory.vue';
 import MySettings from './MySettings.vue';
+import MySquads from './MySquads.vue';
 import CreateEvent from './CreateEvent.vue';
 import CreateSeries from './CreateSeries.vue';
 import CreateSquad from './CreateSquad.vue';
@@ -46,6 +58,7 @@ export default {
         MyEvents,
         MyHistory,
         MySettings,
+        MySquads,
         CreateEvent,
         CreateSeries,
         CreateSquad
@@ -102,19 +115,11 @@ export default {
     },
     methods: {
         onTabChange(idx) {
-            switch (idx) {
-            case 0:
-                this.title = 'History';
-                break;
-            case 1:
-                this.title = 'Events';
-                break;
-            case 2:
-                this.title = 'Settings';
-                break;
-            }
+            const titles = ['History', 'Events', 'Squads', 'Settings'];
+            this.title = titles.length > idx ? titles[idx] : 'Unknown';
         },
         onAddTap() {
+            /*global action*/
             action('Create ...', 'Cancel', ['Event', 'Series', 'Squad']).then(
                 result => {
                     if (result == 'Event') {

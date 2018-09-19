@@ -1,6 +1,6 @@
 <template>
     <Label 
-        text="Settings Not Implemented Yet" 
+        text="Squads Not Implemented Yet" 
         textWrap="true" /> 
 </template>
 
