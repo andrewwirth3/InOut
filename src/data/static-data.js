@@ -20,8 +20,15 @@ const squads = [
         id: 1,
         name: 'Squad 1',
         status: 'A',
-        Created: new Date(),
-        Owner: 1
+        created: new Date(),
+        owner: 1
+    },
+    {
+        id: 2,
+        name: 'Squirtle Squad',
+        status: 'A',
+        created: new Date(),
+        owner: 2
     }
 ];
 

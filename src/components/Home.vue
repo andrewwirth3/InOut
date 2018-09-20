@@ -15,7 +15,7 @@
                  tabTextColor="#777777"
                  selectedTabTextColor="green"
                  @tabChange="onTabChange"
-                 selectedIndex="1">
+                 selectedIndex="2">
             <TabViewItem :title="'fa-history' | fonticon" 
                          class="h2 fas">
                 <my-history />
@@ -78,11 +78,24 @@ export default {
                 }
             }
 
-            for (const squad of staticData.squads) {
+            for (let squad of staticData.squads) {
                 squad.members = [];
+                for (const member of staticData.squadMembers) {
+                    if (member.squadId == squad.id) {
+                        squad.members.push(member);
+                    }
+                }
+                squads.push(squad);
+            }
+
+            for (let squad of squads) {
                 for (const member of squadMembers) {
                     if (member.squadId == squad.id) {
-                        squads.push(squad);
+                        for (const person of staticData.persons) {
+                            if (person.id == squad.owner) {
+                                squad.ownerName = person.name;
+                            }
+                        }
                     }
                 }
             }
@@ -108,7 +121,12 @@ export default {
     },
     methods: {
         onTabChange(idx) {
-            const titles = ['History', 'Events', 'Squads', 'Settings'];
+            const titles = [
+                'My History',
+                'My Events',
+                'My Squads',
+                'My Settings'
+            ];
             this.title = titles.length > idx ? titles[idx] : 'Unknown';
         },
         onAddTap() {
