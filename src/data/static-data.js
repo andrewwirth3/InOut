@@ -1,14 +1,14 @@
 const persons = [
     {
         id: 1,
-        name: 'Admin',
+        name: 'Andrew Wirth',
         phone: 3191112233,
         email: 'test@gmail.com',
         status: 'A'
     },
     {
         id: 2,
-        name: 'Test',
+        name: 'David Wirth',
         phone: 3191114444,
         email: 'test1@gmail.com',
         status: 'A'
@@ -45,7 +45,21 @@ const squadMembers = [
         squadId: 1,
         personId: 2,
         status: 'A',
+        sequence: 2
+    },
+    {
+        id: 3,
+        squadId: 2,
+        personId: 2,
+        status: 'A',
         sequence: 1
+    },
+    {
+        id: 4,
+        squadId: 2,
+        personId: 1,
+        status: 'A',
+        sequence: 3
     }
 ];
 

@@ -80,7 +80,13 @@ export default {
 
             for (let squad of staticData.squads) {
                 squad.members = [];
-                for (const member of staticData.squadMembers) {
+                for (let member of staticData.squadMembers) {
+                    for (const person of staticData.persons) {
+                        if (member.personId == person.id) {
+                            member.name = person.name;
+                            member.phone = person.phone;
+                        }
+                    }
                     if (member.squadId == squad.id) {
                         squad.members.push(member);
                     }

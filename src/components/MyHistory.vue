@@ -57,7 +57,7 @@
                                    :color="event.response == 1 ? 'green' : 'red'" 
                                    :text="`fa-${event.response == 1 ? 'thumbs-up' : 'thumbs-down'}` | fonticon" 
                                    @tap="onInTap(event)" />
-                            <Label :text="getFormattedDate(event.date)" 
+                            <Label :text="$formatters_date(event.date)" 
                                    row="1"
                                    col="0"
                                    class="footnote m-b-10"/>
@@ -75,7 +75,6 @@
 
 <script>
 import { mapState } from 'vuex';
-const moment = require('moment');
 
 export default {
     data() {
@@ -107,15 +106,6 @@ export default {
             responses: state => state.main.responses,
             events: state => state.main.events
         })
-    },
-    methods: {
-        getFormattedDate(d) {
-            let m = moment(d);
-            if (m.isValid()) {
-                return m.format('ddd, MMM DD');
-            }
-            return '';
-        }
     }
 };
 </script>

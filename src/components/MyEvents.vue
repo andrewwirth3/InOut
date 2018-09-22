@@ -17,11 +17,11 @@
                                row="0" 
                                col="1" 
                                class="footnote pull-right"></Label>
-                        <Label :text="getFormattedDate(event.date)" 
+                        <Label :text="$formatters_date(event.date)" 
                                row="1" 
                                col="1" 
                                class="footnote pull-right"></Label>
-                        <Label :text="getFormattedTime(event.date)" 
+                        <Label :text="$formatters_time(event.date)" 
                                row="2" 
                                col="1" 
                                class="footnote pull-right"></Label>
@@ -80,7 +80,6 @@
 
 <script>
 import { mapState } from 'vuex';
-const moment = require('moment');
 
 export default {
     data() {
@@ -96,20 +95,6 @@ export default {
     // mounted() {
     // },
     methods: {
-        getFormattedDate(d) {
-            let m = moment(d);
-            if (m.isValid()) {
-                return m.format('ddd, MMM DD');
-            }
-            return d.toLocaleString('en-US');
-        },
-        getFormattedTime(d) {
-            let m = moment(d);
-            if (m.isValid()) {
-                return m.format('hh:mm a');
-            }
-            return '';
-        },
         getProgressValue(evt, type) {
             if (!evt || evt === {}) return 0;
             let value = 0;

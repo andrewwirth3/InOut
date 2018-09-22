@@ -5,6 +5,7 @@ import store from './store';
 import './styles.scss';
 import Home from './components/Home';
 
+import './mixins/formatters';
 // Uncomment the following to see NativeScript-Vue output logs
 // Vue.config.silent = false;
 
