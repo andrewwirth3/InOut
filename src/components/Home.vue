@@ -15,7 +15,8 @@
                  tabTextColor="#777777"
                  selectedTabTextColor="green"
                  @tabChange="onTabChange"
-                 selectedIndex="2">
+                 :selectedIndex="currentIndex"
+                 @swipe="onSwipe">
             <TabViewItem :title="'fa-history' | fonticon" 
                          class="h2 fas">
                 <my-history />
@@ -58,7 +59,8 @@ export default {
     },
     data() {
         return {
-            title: 'Events'
+            title: 'Events',
+            currentIndex: 2
         };
     },
     created() {
@@ -147,6 +149,12 @@ export default {
                         this.$navigateTo(CreateSquad);
                     }
                 }
+            );
+        },
+        onSwipe(event) {
+            /* eslint-disable-next-line no-console */
+            console.log(
+                `swipe direction: ${event.direction}. ${JSON.stringify(event)}`
             );
         }
     }
