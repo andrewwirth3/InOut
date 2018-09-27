@@ -10,7 +10,45 @@
                         android.systemIcon="ic_menu_add"
                         android.position="actionBar" />
         </ActionBar>
-        <TabView androidTabsPosition="bottom"
+        <DockLayout stretchLastChild="true">
+            <FlexboxLayout flexDirection="row" 
+                           dock="bottom"
+                           justifyContent="space-around"
+                           alignItems="stretch"
+                           class="p-y-5">
+                <Label :text="'fa-history' | fonticon"
+                       class="btn-outline fas"
+                       verticalAlignment="center"
+                       horizontalAlignment="center" />
+                <Label :text="'fa-tasks' | fonticon"
+                       class="btn-outline fas"
+                       verticalAlignment="center"
+                       horizontalAlignment="center" />
+                <Label :text="'fa-users' | fonticon"
+                       class="btn-outline fas"
+                       verticalAlignment="center"
+                       horizontalAlignment="center" />
+                <Label :text="'fa-wrench' | fonticon"
+                       class="btn-outline fas"
+                       verticalAlignment="center"
+                       horizontalAlignment="center" />
+            </FlexboxLayout>
+            <Pager @swipe="onSwipe">
+                <v-template>
+                    <my-history />
+                </v-template>
+                <v-template>
+                    <my-events />
+                </v-template>
+                <v-template>
+                    <my-squads />
+                </v-template>
+                <v-template>
+                    <my-settings />
+                </v-template>
+            </Pager>
+        </DockLayout>
+        <!-- <TabView androidTabsPosition="bottom"
                  tabBackgroundColor="#191919"
                  tabTextColor="#777777"
                  selectedTabTextColor="green"
@@ -33,7 +71,7 @@
                          class="h2 fas">
                 <my-settings />
             </TabViewItem>
-        </TabView>
+        </TabView> -->
     </Page>
 </template>
 
@@ -60,7 +98,7 @@ export default {
     data() {
         return {
             title: 'Events',
-            currentIndex: 2
+            currentIndex: 1
         };
     },
     created() {
