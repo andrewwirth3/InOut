@@ -12,7 +12,7 @@ import './mixins/formatters';
 
 import { TNSFontIcon, fonticon } from 'nativescript-fonticon';
 
-// import Pager from 'nativescript-pager/vue';
+import Pager from 'nativescript-pager/vue';
 
 // TNSFontIcon.debug = true;
 TNSFontIcon.paths = {
@@ -22,7 +22,7 @@ TNSFontIcon.loadCss();
 
 Vue.filter('fonticon', fonticon);
 // Vue.use(VueDevtools);
-// Vue.use(Pager);
+Vue.use(Pager);
 
 new Vue({
     store,

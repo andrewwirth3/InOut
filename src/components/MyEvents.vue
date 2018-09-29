@@ -1,73 +1,73 @@
 <template>
     <ScrollView>
-        <ListView for="(event, index) in events" 
+        <ListView for="(event, index) in events"
                   @itemTap="onItemTap">
             <v-template>
                 <StackLayout class="container p-y-15 p-x-5" >
-                    <GridLayout rows="auto,auto,auto,13,auto" 
-                                columns="*, auto" 
+                    <GridLayout rows="auto,auto,auto,13,auto"
+                                columns="*, auto"
                                 class="p-x-5">
-                        <Label :text="event.desc" 
-                               row="0" 
-                               col="0" 
-                               rowSpan="3" 
-                               color="white" 
+                        <Label :text="event.desc"
+                               row="0"
+                               col="0"
+                               rowSpan="3"
+                               color="white"
                                class="h1" ></Label>
-                        <Label :text="event.location" 
-                               row="0" 
-                               col="1" 
+                        <Label :text="event.location"
+                               row="0"
+                               col="1"
                                class="footnote pull-right"></Label>
-                        <Label :text="$formatters_date(event.date)" 
-                               row="1" 
-                               col="1" 
+                        <Label :text="$formatters_date(event.date)"
+                               row="1"
+                               col="1"
                                class="footnote pull-right"></Label>
-                        <Label :text="$formatters_time(event.date)" 
-                               row="2" 
-                               col="1" 
+                        <Label :text="$formatters_time(event.date)"
+                               row="2"
+                               col="1"
                                class="footnote pull-right"></Label>
-                        <FlexboxLayout flexDirection="row" 
-                                       width="100%" 
-                                       justifyContent="stretch" 
-                                       class="p-x-10 p-y-5" 
-                                       row="3" 
-                                       col="0" 
+                        <FlexboxLayout flexDirection="row"
+                                       width="100%"
+                                       justifyContent="stretch"
+                                       class="p-x-10 p-y-5"
+                                       row="3"
+                                       col="0"
                                        colSpan="2">
-                            <Label text="IN" 
-                                   textWrap="true" 
-                                   class="in" 
+                            <Label text="IN"
+                                   textWrap="true"
+                                   class="in"
                                    :width="getProgressValue(event, 'in')" />
-                            <Label text=" " 
-                                   textWrap="true" 
-                                   class="none" 
+                            <Label text=" "
+                                   textWrap="true"
+                                   class="none"
                                    flexGrow="2" />
-                            <Label text="OUT" 
-                                   textWrap="true" 
-                                   class="out" 
+                            <Label text="OUT"
+                                   textWrap="true"
+                                   class="out"
                                    :width="getProgressValue(event, 'out')" />
                         </FlexboxLayout>
-                        <FlexboxLayout flexDirection="row" 
-                                       width="90%" 
-                                       class="" 
-                                       row="4" 
-                                       col="0" 
-                                       colSpan="2" 
+                        <FlexboxLayout flexDirection="row"
+                                       width="90%"
+                                       class=""
+                                       row="4"
+                                       col="0"
+                                       colSpan="2"
                                        justifyContent="space-between">
                             <FlexboxLayout flexDirection="row">
-                                <Label v-bind:class="['h3', {'fas': event.response == 1}, {'far': event.response != 1}]" 
-                                       :color="event.response == 1 ? 'green' : 'white'" 
-                                       :text="'fa-thumbs-up' | fonticon" 
-                                       @tap="onInTap(event)" 
+                                <Label v-bind:class="['h3', {'fas': event.response == 1}, {'far': event.response != 1}]"
+                                       :color="event.response == 1 ? 'green' : 'white'"
+                                       :text="'fa-thumbs-up' | fonticon"
+                                       @tap="onInTap(event)"
                                        class="m-r-5 m-l-20" />
-                                <Label :text="`${event.in}/${event.min}`" 
+                                <Label :text="`${event.in}/${event.min}`"
                                        class="footnote" />
                             </FlexboxLayout>
                             <FlexboxLayout flexDirection="row">
-                                <Label :text="`${event.out}/${event.total}`" 
+                                <Label :text="`${event.out}/${event.total}`"
                                        class="footnote"/>
-                                <Label v-bind:class="['h3', {'fas': event.response == 0}, {'far': event.response != 0}]" 
-                                       :color="event.response == 0 ? 'red' : 'white'" 
-                                       :text="'fa-thumbs-down' | fonticon" 
-                                       @tap="onOutTap(event)" 
+                                <Label v-bind:class="['h3', {'fas': event.response == 0}, {'far': event.response != 0}]"
+                                       :color="event.response == 0 ? 'red' : 'white'"
+                                       :text="'fa-thumbs-down' | fonticon"
+                                       @tap="onOutTap(event)"
                                        class="m-l-5 m-r-20" />
                             </FlexboxLayout>
                         </FlexboxLayout>
@@ -109,7 +109,7 @@ export default {
                 value = evt.total - (evt.in + evt.out);
                 break;
             }
-            value = Math.floor(value / evt.total * 100);
+            value = Math.floor((value / evt.total) * 100);
             return value == 0 ? value : `${value}%`;
         },
         updateEvent(evt, idx, response, inDelta, outDelta) {

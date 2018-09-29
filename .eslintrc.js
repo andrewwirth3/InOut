@@ -28,7 +28,8 @@ module.exports = {
 				alignAttributesVertically: true,
 				ignores: []
 			}
-		]
+		],
+		'no-trailing-spaces': ['error', { skipBlankLines: true }]
 	},
 	env: {
 		browser: true,

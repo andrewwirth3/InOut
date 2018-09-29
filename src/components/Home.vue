@@ -1,6 +1,6 @@
 <template>
     <Page class="page">
-        <ActionBar class="action-bar" 
+        <ActionBar class="action-bar"
                    :title="title"
                    backgroundColor="#191919"
                    color="#777777">
@@ -11,67 +11,45 @@
                         android.position="actionBar" />
         </ActionBar>
         <DockLayout stretchLastChild="true">
-            <FlexboxLayout flexDirection="row" 
+            <FlexboxLayout flexDirection="row"
                            dock="bottom"
                            justifyContent="space-around"
                            alignItems="stretch"
-                           class="p-y-5">
-                <Label :text="'fa-history' | fonticon"
-                       class="btn-outline fas"
+                           backgroundColor="#191919"
+                           color="#777777">
+                <Label v-for="(item, index) in titles"
+                       :key="index"
+                       :text="`fa-${item.icon}` | fonticon"
+                       v-bind:class="['fas',
+                                      'h3',
+                                      'p-x-20',
+                                      'p-y-15',
+                                      {'main-tab-active': currentIndex == index}]"
                        verticalAlignment="center"
-                       horizontalAlignment="center" />
-                <Label :text="'fa-tasks' | fonticon"
-                       class="btn-outline fas"
-                       verticalAlignment="center"
-                       horizontalAlignment="center" />
-                <Label :text="'fa-users' | fonticon"
-                       class="btn-outline fas"
-                       verticalAlignment="center"
-                       horizontalAlignment="center" />
-                <Label :text="'fa-wrench' | fonticon"
-                       class="btn-outline fas"
-                       verticalAlignment="center"
-                       horizontalAlignment="center" />
+                       horizontalAlignment="center"
+                       @tap="changeIndex(index)" />
             </FlexboxLayout>
-            <Pager @swipe="onSwipe">
-                <v-template>
+            <Pager ref="pager"
+                   :selectedIndex="currentIndex"
+                   @selectedIndexChange="changeIndex"
+                   :items="titles">
+                <v-template if="item.title == 'History'">
                     <my-history />
                 </v-template>
-                <v-template>
+                <v-template if="item.title == 'Events'">
                     <my-events />
                 </v-template>
-                <v-template>
+                <v-template if="item.title == 'Squads'">
                     <my-squads />
                 </v-template>
-                <v-template>
+                <v-template if="item.title == 'Settings'">
                     <my-settings />
+                </v-template>
+                <v-template>
+                    <Label text="Not Implemented"/>
                 </v-template>
             </Pager>
         </DockLayout>
-        <!-- <TabView androidTabsPosition="bottom"
-                 tabBackgroundColor="#191919"
-                 tabTextColor="#777777"
-                 selectedTabTextColor="green"
-                 @tabChange="onTabChange"
-                 :selectedIndex="currentIndex"
-                 @swipe="onSwipe">
-            <TabViewItem :title="'fa-history' | fonticon" 
-                         class="h2 fas">
-                <my-history />
-            </TabViewItem>
-            <TabViewItem :title="'fa-tasks' | fonticon" 
-                         class="h2 fas">
-                <my-events />
-            </TabViewItem>
-            <TabViewItem :title="'fa-users' | fonticon" 
-                         class="h2 fas">
-                <my-squads />
-            </TabViewItem>
-            <TabViewItem :title="'fa-wrench' | fonticon" 
-                         class="h2 fas">
-                <my-settings />
-            </TabViewItem>
-        </TabView> -->
     </Page>
 </template>
 
@@ -90,16 +68,40 @@ export default {
         MyEvents,
         MyHistory,
         MySettings,
-        MySquads,
-        CreateEvent,
-        CreateSeries,
-        CreateSquad
+        MySquads
+        // CreateEvent,
+        // CreateSeries,
+        // CreateSquad
     },
     data() {
         return {
-            title: 'Events',
+            titles: [
+                {
+                    title: 'History',
+                    icon: 'history'
+                },
+                {
+                    title: 'Events',
+                    icon: 'tasks'
+                },
+                {
+                    title: 'Squads',
+                    icon: 'users'
+                },
+                {
+                    title: 'Settings',
+                    icon: 'wrench'
+                }
+            ],
             currentIndex: 1
         };
+    },
+    computed: {
+        title: function() {
+            return this.titles.length > this.currentIndex
+                ? this.titles[this.currentIndex].title
+                : 'Unknown';
+        }
     },
     created() {
         const userId = 1;
@@ -166,15 +168,6 @@ export default {
         }
     },
     methods: {
-        onTabChange(idx) {
-            const titles = [
-                'My History',
-                'My Events',
-                'My Squads',
-                'My Settings'
-            ];
-            this.title = titles.length > idx ? titles[idx] : 'Unknown';
-        },
         onAddTap() {
             /*global action*/
             action('Create ...', 'Cancel', ['Event', 'Series', 'Squad']).then(
@@ -189,15 +182,15 @@ export default {
                 }
             );
         },
-        onSwipe(event) {
-            /* eslint-disable-next-line no-console */
-            console.log(
-                `swipe direction: ${event.direction}. ${JSON.stringify(event)}`
-            );
+        changeIndex(idx) {
+            this.currentIndex = parseInt(idx);
         }
     }
 };
 </script>
 
 <style lang="scss">
+.main-tab-active {
+	color: green;
+}
 </style>

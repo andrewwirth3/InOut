@@ -1,67 +1,68 @@
 <template>
     <FlexboxLayout flexDirection="column" >
-        <GridLayout rows="auto,auto" 
-                    columns="*,*,*"  
+        <GridLayout rows="auto,auto"
+                    columns="*,*,*"
                     width="100%"
                     class="p-y-15">
-            <Label text="In" 
-                   row="0" 
-                   col="0" 
-                   class="footnote m-y-2" 
+            <Label text="In"
+                   row="0"
+                   col="0"
+                   class="footnote m-y-2"
                    textAlignment="center"
                    textDecoration="underline" />
-            <Label text="Total" 
-                   row="0" 
-                   col="1" 
-                   class="footnote m-y-2" 
+            <Label text="Total"
+                   row="0"
+                   col="1"
+                   class="footnote m-y-2"
                    textAlignment="center"
                    textDecoration="underline" />
-            <Label text="Out" 
-                   row="0" 
-                   col="2" 
-                   class="footnote m-y-2" 
+            <Label text="Out"
+                   row="0"
+                   col="2"
+                   class="footnote m-y-2"
                    textAlignment="center"
                    textDecoration="underline" />
-            <Label :text="inCount" 
-                   row="1" 
-                   col="0" 
+            <Label :text="inCount"
+                   row="1"
+                   col="0"
                    textAlignment="center"
                    color="green" />
-            <Label :text="totalCount" 
-                   row="1" 
-                   col="1" 
-                   textAlignment="center" />
-            <Label :text="outCount" 
-                   row="1" 
-                   col="2" 
+            <Label :text="totalCount"
+                   row="1"
+                   col="1"
+                   textAlignment="center"
+                   class="text-muted" />
+            <Label :text="outCount"
+                   row="1"
+                   col="2"
                    textAlignment="center"
                    color="red" />
         </GridLayout>
-        <ScrollView flexGrow="2" 
+        <ScrollView flexGrow="2"
                     width="100%">
             <ListView for="(event, index) in events">
                 <v-template>
                     <StackLayout>
-                        <GridLayout rows="auto,auto" 
-                                    columns="*,auto" 
+                        <GridLayout rows="auto,auto"
+                                    columns="*,auto"
                                     class="p-10">
-                            <Label :text="event.desc" 
-                                   row="0" 
-                                   col="0" 
-                                   color="white" 
+                            <Label :text="event.desc"
+                                   row="0"
+                                   col="0"
+                                   color="white"
                                    class="h2" ></Label>
                             <Label v-if="event.response !== null"
                                    row="0"
                                    col="1"
-                                   class="h2 fas m-5" 
-                                   :color="event.response == 1 ? 'green' : 'red'" 
-                                   :text="`fa-${event.response == 1 ? 'thumbs-up' : 'thumbs-down'}` | fonticon" 
+                                   class="h2 fas m-5"
+                                   :color="event.response == 1 ? 'green' : 'red'"
+                                   :text="`fa-${event.response == 1 ? 'thumbs-up' : 'thumbs-down'}` | fonticon"
                                    @tap="onInTap(event)" />
-                            <Label :text="$formatters_date(event.date)" 
+                            <Label :text="$formatters_date(event.date)"
                                    row="1"
                                    col="0"
                                    class="footnote m-b-10"/>
-                            <Label :text="`${event.in}/${event.min}`" 
+                            <Label :text="`${event.in}/${event.min}`"
                                    row="1"
                                    col="1"
                                    class="footnote m-b-10" />
@@ -70,7 +71,7 @@
                 </v-template>
             </ListView>
         </ScrollView>
-    </FlexboxLayout> 
+    </FlexboxLayout>
 </template>
 
 <script>

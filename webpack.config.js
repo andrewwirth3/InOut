@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const winston = require('winston-color');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -7,6 +7,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackSynchronizableShellPlugin = require('webpack-synchronizable-shell-plugin');
 const NativeScriptVueExternals = require('nativescript-vue-externals');
 const NativeScriptVueTarget = require('nativescript-vue-target');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // Prepare NativeScript application from template (if necessary)
 require('./prepare')();
@@ -71,9 +72,11 @@ const config = (platform, launchArgs) => {
     if (!isDebug) {
         // Minify JavaScript code
         plugins.push(
-            new webpack.optimize.UglifyJsPlugin({
-                compress: { warnings: false },
-                output: { comments: false }
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    mangle: true
+                    // compress: true
+                }
             })
         );
     }
