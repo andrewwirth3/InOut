@@ -1,0 +1,2 @@
+import './fonticons';
+import './plugins';

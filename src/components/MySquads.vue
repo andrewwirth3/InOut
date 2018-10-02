@@ -1,39 +1,39 @@
 <template>
     <FlexboxLayout flexDirection="column">
-        <GridLayout rows="auto,auto" 
+        <GridLayout rows="auto,auto"
                     columns="50,*,50"
                     class="p-y-10">
-            <Label :text="'fa-caret-left' | fonticon" 
-                   class="h1 fas" 
-                   row="0" 
-                   col="0" 
-                   rowSpan="2" 
+            <Label :text="'fa-caret-left' | fonticon"
+                   class="h1 fas"
+                   row="0"
+                   col="0"
+                   rowSpan="2"
                    @tap="changeSquads(-1)"
                    verticalAlignment="center"
                    horizontalAlignment="center"
                    :color="current == 0 ? 'dimgray' : ''"/>
-            <Label :text="squad ? squad.name : 'No Squads Available'" 
-                   class= "h2" 
-                   row="0" 
-                   col="1" 
+            <Label :text="squad ? squad.name : 'No Squads Available'"
+                   class= "h2"
+                   row="0"
+                   col="1"
                    textAlignment="center" />
-            <Label :text="squad ? squad.ownerName : ''" 
-                   class= "footnote" 
-                   row="1" 
-                   col="1" 
+            <Label :text="squad ? squad.ownerName : ''"
+                   class= "footnote"
+                   row="1"
+                   col="1"
                    textAlignment="center" />
-            <Label :text="'fa-caret-right' | fonticon" 
-                   class="h1 fas" 
-                   row="0" 
-                   col="2" 
+            <Label :text="'fa-caret-right' | fonticon"
+                   class="h1 fas"
+                   row="0"
+                   col="2"
                    rowSpan="2"
-                   @tap="changeSquads(1)" 
+                   @tap="changeSquads(1)"
                    verticalAlignment="center"
                    horizontalAlignment="center"
                    :color="(current + 1) >= squads.length ? 'dimgray' : ''"/>
         </GridLayout>
         <ScrollView flexGrow="2" >
-            <ListView for="(member, index) in squad.members" 
+            <ListView for="(member, index) in squad.members"
                       @itemTap="onItemTap">
                 <v-template>
                     <StackLayout>
@@ -43,25 +43,25 @@
                             <Label v-if="member.src === undefined"
                                    :text="'fa-user-circle' | fonticon"
                                    class="fas h1"
-                                   row="0" 
-                                   col="0" 
+                                   row="0"
+                                   col="0"
                                    rowSpan="2"
                                    verticalAlignment="center"
                                    horizontalAlignment="center" />
                             <Image v-else
-                                   :src="member.src" 
+                                   :src="member.src"
                                    class="thumb img-circle"
                                    row="0"
                                    col="0"
                                    rowSpan="2" />
                             
-                            <Label :text="member.name" 
-                                   class="h2 m-l-10 m-b-5" 
-                                   row="0" 
+                            <Label :text="member.name"
+                                   class="h2 m-l-10 m-b-5"
+                                   row="0"
                                    col="1" />
-                            <Label :text="$formatters_phone(member.phone)" 
-                                   class="footnote m-l-10" 
-                                   row="1" 
+                            <Label :text="$formatters_phone(member.phone)"
+                                   class="footnote m-l-10"
+                                   row="1"
                                    col="1" />
                             <Label :text="'fa-phone' | fonticon"
                                    row="0"
@@ -71,7 +71,7 @@
                                    verticalAlignment="center"
                                    horizontalAlignment="center"
                                    @tap="phoneTap(member.phone)" />
-                            <Label :text="'fa-comment-alt' | fonticon" 
+                            <Label :text="'fa-comment-alt' | fonticon"
                                    row="0"
                                    col="3"
                                    rowSpan="2"

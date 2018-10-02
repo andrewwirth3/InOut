@@ -7,7 +7,14 @@ module.exports = {
 	rules: {
 		// override/add rules settings here, such as:
 		'vue/no-unused-vars': 'error',
-		indent: ['error', 4, { flatTernaryExpressions: true }],
+		indent: [
+			'error',
+			4,
+			{
+				flatTernaryExpressions: true,
+				FunctionExpression: { parameters: 'first' }
+			}
+		],
 		'multiline-ternary': ['error', 'always-multiline'],
 		'vue/max-attributes-per-line': [
 			1,
@@ -29,7 +36,9 @@ module.exports = {
 				ignores: []
 			}
 		],
-		'no-trailing-spaces': ['error', { skipBlankLines: true }]
+		'no-trailing-spaces': ['error', { skipBlankLines: true }],
+		'no-console': 'warn',
+		'max-len': [2, { code: 120 }]
 	},
 	env: {
 		browser: true,
