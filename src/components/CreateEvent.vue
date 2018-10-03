@@ -44,6 +44,14 @@
                     <StackLayout class="hr-light"></StackLayout>
                 </StackLayout>
                 <StackLayout class="input-field">
+                    <Label text="Squad"
+                           class="label font-weight-bold m-b-5" />
+                    <ListPicker :items="squadNames"
+                                selectedIndex="0"
+                                @selectedIndexChange="squadChange"></ListPicker>
+                    <StackLayout class="hr-light"></StackLayout>
+                </StackLayout>
+                <StackLayout class="input-field">
                     <Label text="Minimum"
                            class="label font-weight-bold m-b-5" />
                     <TextField class="input"
@@ -60,11 +68,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 const ModalPicker = require('nativescript-modal-datetimepicker')
     .ModalDatetimepicker;
-const moment = require('moment');
-
 const picker = new ModalPicker();
+const moment = require('moment');
 
 export default {
     data() {
@@ -81,6 +89,14 @@ export default {
                 .add(-1, 'days')
                 .toDate()
         };
+    },
+    computed: {
+        squadNames: function() {
+            return [''].concat(this.squads.map(s => `${s.id}: ${s.name}`));
+        },
+        ...mapState({
+            squads: state => state.main.squads
+        })
     },
     methods: {
         pickDate() {
@@ -124,10 +140,13 @@ export default {
                 });
         },
         onCreate() {
-            console.log(JSON.stringify(this.event));
+            // console.log(JSON.stringify(this.event));
         },
-        onSwipe(args) {
-            console.log(JSON.stringify(args));
+        onSwipe() {
+            // console.log(JSON.stringify(args));
+        },
+        squadChange() {
+            // console.log(JSON.stringify(args.object));
         }
     }
 };
