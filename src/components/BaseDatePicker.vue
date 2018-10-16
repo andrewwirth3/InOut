@@ -1,4 +1,9 @@
 <template>
-    <Label text="Not implemented yet"
-           textWrap="true" />
+    <Page>
+        <RadCalendar></RadCalendar>
+    </Page>
 </template>
+
+<script>
+export default {};
+</script>

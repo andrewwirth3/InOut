@@ -69,12 +69,16 @@
 
 <script>
 import { mapState } from 'vuex';
+import BaseDatePicker from './BaseDatePicker.vue';
 const ModalPicker = require('nativescript-modal-datetimepicker')
     .ModalDatetimepicker;
 const picker = new ModalPicker();
 const moment = require('moment');
 
 export default {
+    components: {
+        BaseDatePicker
+    },
     data() {
         return {
             event: {
@@ -100,24 +104,25 @@ export default {
     },
     methods: {
         pickDate() {
-            picker
-                .pickDate({
-                    title: 'Pick Date for Event',
-                    theme: 'dark',
-                    minDate: this.today
-                })
-                .then(result => {
-                    let m = moment(
-                        `${result.year}-${result.month}-${result.day}`,
-                        moment.HTML5_FMT.DATE
-                    );
-                    if (m.isValid()) {
-                        this.$set(this.event, 'date', m.format('L'));
-                    }
-                })
-                .catch(error => {
-                    alert('pickDate Error: ' + error);
-                });
+            this.$showModal(BaseDatePicker);
+            // picker
+            //     .pickDate({
+            //         title: 'Pick Date for Event',
+            //         theme: 'dark',
+            //         minDate: this.today
+            //     })
+            //     .then(result => {
+            //         let m = moment(
+            //             `${result.year}-${result.month}-${result.day}`,
+            //             moment.HTML5_FMT.DATE
+            //         );
+            //         if (m.isValid()) {
+            //             this.$set(this.event, 'date', m.format('L'));
+            //         }
+            //     })
+            //     .catch(error => {
+            //         alert('pickDate Error: ' + error);
+            //     });
         },
         pickTime() {
             picker
