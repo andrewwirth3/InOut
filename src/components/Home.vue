@@ -62,18 +62,16 @@ import MySquads from './MySquads.vue';
 import CreateEvent from './CreateEvent.vue';
 import CreateSeries from './CreateSeries.vue';
 import CreateSquad from './CreateSquad.vue';
-import BaseDatePicker from './BaseDatePicker.vue';
 
 export default {
     components: {
         MyEvents,
         MyHistory,
         MySettings,
-        MySquads,
+        MySquads
         // CreateEvent,
         // CreateSeries,
         // CreateSquad
-        BaseDatePicker
     },
     data() {
         return {

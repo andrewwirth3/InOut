@@ -76,9 +76,9 @@ const picker = new ModalPicker();
 const moment = require('moment');
 
 export default {
-    components: {
-        BaseDatePicker
-    },
+    // components: {
+    //     BaseDatePicker
+    // },
     data() {
         return {
             event: {
