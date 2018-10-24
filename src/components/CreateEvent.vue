@@ -105,7 +105,6 @@ export default {
     methods: {
         pickDate() {
             this.$showModal(BaseDatePicker).then(dates => {
-                console.log(JSON.stringify(dates));
                 this.$set(this.event, 'date', dates.join(', '));
             });
             // picker
