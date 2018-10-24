@@ -167,6 +167,9 @@ export default {
             this.$store.commit('setResponses', responses);
         }
     },
+    mounted() {
+        this.$navigateTo(CreateEvent);
+    },
     methods: {
         onAddTap() {
             /*global action*/
