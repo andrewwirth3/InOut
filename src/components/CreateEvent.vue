@@ -70,15 +70,11 @@
 <script>
 import { mapState } from 'vuex';
 import BaseDatePicker from './BaseDatePicker.vue';
-const ModalPicker = require('nativescript-modal-datetimepicker')
-    .ModalDatetimepicker;
-const picker = new ModalPicker();
+import BaseTimePicker from './BaseTimePicker.vue';
+
 const moment = require('moment');
 
 export default {
-    // components: {
-    //     BaseDatePicker
-    // },
     data() {
         return {
             event: {
@@ -107,44 +103,16 @@ export default {
             this.$showModal(BaseDatePicker).then(dates => {
                 this.$set(this.event, 'date', dates.join(', '));
             });
-            // picker
-            //     .pickDate({
-            //         title: 'Pick Date for Event',
-            //         theme: 'dark',
-            //         minDate: this.today
-            //     })
-            //     .then(result => {
-            //         let m = moment(
-            //             `${result.year}-${result.month}-${result.day}`,
-            //             moment.HTML5_FMT.DATE
-            //         );
-            //         if (m.isValid()) {
-            //             this.$set(this.event, 'date', m.format('L'));
-            //         }
-            //     })
-            //     .catch(error => {
-            //         alert('pickDate Error: ' + error);
-            //     });
         },
         pickTime() {
-            picker
-                .pickTime({
-                    title: 'Pick Time for Event',
-                    theme: 'dark',
-                    minDate: this.today
-                })
-                .then(result => {
-                    let m = moment(
-                        `${result.hour}:${result.minute}`,
-                        moment.HTML5_FMT.TIME
-                    );
-                    if (m.isValid()) {
-                        this.$set(this.event, 'time', m.format('LT'));
-                    }
-                })
-                .catch(error => {
-                    alert('pickTime Error: ' + error);
-                });
+            this.$showModal(BaseTimePicker).then(time => {
+                let m = moment(time);
+                let newTime = '';
+                if (m.isValid()) {
+                    newTime = m.format('LT');
+                }
+                this.$set(this.event, 'time', newTime);
+            });
         },
         onCreate() {
             // console.log(JSON.stringify(this.event));
