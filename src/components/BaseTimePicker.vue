@@ -2,8 +2,6 @@
     <GridLayout columns="*"
                 rows="auto,auto">
         <TimePicker :time="time"
-                    :hour="hour"
-                    :minute="minute"
                     row="0"
                     col="0"
                     @timeChange="onTimeChange">
@@ -25,23 +23,14 @@ export default {
     data() {
         return {
             selectedTime: null,
-            time: moment(),
-            hour: 0,
-            minute: 0
+            time: new Date()
         };
-    },
-    created() {
-        let h = moment();
-        h.hour(h.hour() + 1);
-        h.minute(0);
-        console.log(h.format('LT'));
-        this.$set(this, 'time', h.toDate());
-        this.$set(this, 'hour', h.hour());
-        this.$set(this, 'minute', h.minute());
     },
     methods: {
         onTimeChange(args) {
-            this.selectedTime = args.value;
+            let m = moment(args.value);
+            m.seconds(0);
+            this.selectedTime = m;
         },
         onSelect() {
             this.$modal.close(this.selectedTime);
