@@ -46,9 +46,10 @@
                 <StackLayout class="input-field">
                     <Label text="Squad"
                            class="label font-weight-bold m-b-5" />
-                    <ListPicker :items="squadNames"
-                                selectedIndex="0"
-                                @selectedIndexChange="squadChange"></ListPicker>
+                    <TextField class="input"
+                               :text="event.squadName"
+                               editable="false"
+                               @tap="pickSquad"></TextField>
                     <StackLayout class="hr-light"></StackLayout>
                 </StackLayout>
                 <StackLayout class="input-field">
@@ -71,6 +72,7 @@
 import { mapState } from 'vuex';
 import BaseDatePicker from './BaseDatePicker.vue';
 import BaseTimePicker from './BaseTimePicker.vue';
+import BaseListPicker from './BaseListPicker.vue';
 
 const moment = require('moment');
 
@@ -82,7 +84,9 @@ export default {
                 loc: '',
                 date: '',
                 time: '',
-                min: ''
+                min: '',
+                squad: null,
+                squadName: ''
             },
             title: 'New Event',
             today: moment()
@@ -112,6 +116,20 @@ export default {
                     newTime = m.format('LT');
                 }
                 this.$set(this.event, 'time', newTime);
+            });
+        },
+        pickSquad() {
+            this.$showModal(BaseListPicker, {
+                context: {
+                    propsData: {
+                        items: this.squads,
+                        keyValue: 'id',
+                        textValue: 'name'
+                    }
+                }
+            }).then(squad => {
+                this.$set(this.event, 'squad', squad);
+                this.$set(this.event, 'squadName', squad.name);
             });
         },
         onCreate() {
