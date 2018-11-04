@@ -25,15 +25,29 @@
                                :text="series.defaultLoc"></TextField>
                     <StackLayout class="hr-light"></StackLayout>
                 </StackLayout>
-                <StackLayout orientation="horizontal">
-                    <StackLayout class="input-field">
+                <StackLayout class="input-field">
+                    <Label text="Squad"
+                           class="label font-weight-bold m-b-5" />
+                    <TextField class="input"
+                               :text="series.squadName"
+                               editable="false"
+                               @tap="pickSquad"></TextField>
+                    <StackLayout class="hr-light"></StackLayout>
+                </StackLayout>
+                <GridLayout rows="auto"
+                            columns="*,*">
+                    <StackLayout class="input-field"
+                                 row="0"
+                                 col="0">
                         <Label text="Recurring"
                                class="label font-weight-bold m-b-5" />
                         <Switch v-model="series.recurring"
-                                @checkedChange="onCheckedChange" />
+                                class="pull-left"/>
                     </StackLayout>
                     <StackLayout class="input-field"
-                                 v-if="series.recurring == true">
+                                 v-if="series.recurring == true"
+                                 row="0"
+                                 col="1">
                         <Label text="Repeats"
                                class="label font-weight-bold m-b-5" />
                         <TextField class="input"
@@ -42,12 +56,11 @@
                                    @tap="pickRepeatValue"></TextField>
                         <StackLayout class="hr-light"></StackLayout>
                     </StackLayout>
-                    
-                </StackLayout>
+                </GridLayout>
                 <!-- Recurring FALSE -->
                 <StackLayout class="input-field"
                              v-if="series.recurring == false">
-                    <Label text="Date"
+                    <Label text="Dates"
                            class="label font-weight-bold m-b-5" />
                     <TextField class="input"
                                :text="series.dates"
@@ -93,15 +106,6 @@
                                :text="series.time"
                                editable="false"
                                @tap="pickTime"></TextField>
-                    <StackLayout class="hr-light"></StackLayout>
-                </StackLayout>
-                <StackLayout class="input-field">
-                    <Label text="Squad"
-                           class="label font-weight-bold m-b-5" />
-                    <TextField class="input"
-                               :text="series.squadName"
-                               editable="false"
-                               @tap="pickSquad"></TextField>
                     <StackLayout class="hr-light"></StackLayout>
                 </StackLayout>
                 <StackLayout class="input-field">
@@ -179,7 +183,6 @@ export default {
                     if (m.isValid()) {
                         newTime = m.format('LT');
                     }
-                    console.log(newTime);
                     this.$set(this.series, 'time', newTime);
                 }
             });
@@ -237,8 +240,8 @@ export default {
         onCreate() {
             // console.log(JSON.stringify(this.series));
         },
-        onSwipe(args) {
-            console.log(JSON.stringify(args));
+        onSwipe() {
+            // console.log(JSON.stringify(args));
         },
         squadChange() {
             // console.log(JSON.stringify(args.object));

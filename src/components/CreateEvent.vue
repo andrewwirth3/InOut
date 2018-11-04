@@ -140,8 +140,8 @@ export default {
         onCreate() {
             // console.log(JSON.stringify(this.event));
         },
-        onSwipe(args) {
-            console.log(JSON.stringify(args));
+        onSwipe() {
+            // console.log(JSON.stringify(args));
         },
         squadChange() {
             // console.log(JSON.stringify(args.object));

@@ -9,7 +9,8 @@
                      row="0"
                      col="0"
                      @dateSelected="onDateSelected"
-                     @dateDeselected="onDateDeselected">
+                     @dateDeselected="onDateDeselected"
+                     :minDate="new Date()">
         </RadCalendar>
         <Button :text="btnText"
                 row="1"
