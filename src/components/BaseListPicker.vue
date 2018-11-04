@@ -1,17 +1,25 @@
 <template>
     <GridLayout height="85%"
-                rows="*"
-                columns="*">
-        <ListView for="item in items"
-                  @itemTap="onItemTap"
-                  col="0"
-                  row="0"
-                  class="list-group">
-            <v-template>
-                <Label :text="item[textValue]"
-                       class="list-group-item" />
-            </v-template>
-        </ListView>
+                rows="*,auto"
+                columns="*"
+                class="page">
+        <ScrollView col="0"
+                    row="0">
+            <ListView for="item in items"
+                      @itemTap="onItemTap"
+                      class="list-group">
+                <v-template>
+                    <Label :text="item[textValue]"
+                           class="list-group-item" />
+                </v-template>
+            </ListView>
+        </ScrollView>
+        <Button text="Cancel"
+                row="2"
+                col="0"
+                class="btn btn-secondary"
+                @tap="$modal.close(null)">
+        </Button>
     </GridLayout>
 </template>
 

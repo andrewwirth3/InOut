@@ -105,17 +105,20 @@ export default {
     methods: {
         pickDate() {
             this.$showModal(BaseDatePicker).then(dates => {
-                this.$set(this.event, 'date', dates.join(', '));
+                if (dates != null)
+                    this.$set(this.event, 'date', dates.join(', '));
             });
         },
         pickTime() {
             this.$showModal(BaseTimePicker).then(time => {
-                let m = moment(time);
-                let newTime = '';
-                if (m.isValid()) {
-                    newTime = m.format('LT');
+                if (time != null) {
+                    let m = moment(time);
+                    let newTime = '';
+                    if (m.isValid()) {
+                        newTime = m.format('LT');
+                    }
+                    this.$set(this.event, 'time', newTime);
                 }
-                this.$set(this.event, 'time', newTime);
             });
         },
         pickSquad() {
@@ -128,15 +131,17 @@ export default {
                     }
                 }
             }).then(squad => {
-                this.$set(this.event, 'squad', squad);
-                this.$set(this.event, 'squadName', squad.name);
+                if (squad != null) {
+                    this.$set(this.event, 'squad', squad);
+                    this.$set(this.event, 'squadName', squad.name);
+                }
             });
         },
         onCreate() {
             // console.log(JSON.stringify(this.event));
         },
-        onSwipe() {
-            // console.log(JSON.stringify(args));
+        onSwipe(args) {
+            console.log(JSON.stringify(args));
         },
         squadChange() {
             // console.log(JSON.stringify(args.object));

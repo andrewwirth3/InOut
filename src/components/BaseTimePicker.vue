@@ -1,6 +1,7 @@
 <template>
     <GridLayout columns="*"
-                rows="auto,auto">
+                rows="auto,auto,auto"
+                class="page">
         <TimePicker :time="time"
                     row="0"
                     col="0"
@@ -9,9 +10,15 @@
         <Button text="Select Time"
                 row="1"
                 col="0"
-                class="m-y-5 btn btn-primary"
+                class="btn btn-primary"
                 :isEnabled="btnActive"
                 @tap="onSelect">
+        </Button>
+        <Button text="Cancel"
+                row="2"
+                col="0"
+                class="btn btn-secondary"
+                @tap="$modal.close(null)">
         </Button>
     </GridLayout>
 </template>
@@ -22,7 +29,7 @@ const moment = require('moment');
 export default {
     data() {
         return {
-            selectedTime: null,
+            selectedTime: moment().toDate(),
             time: new Date()
         };
     },
@@ -30,7 +37,7 @@ export default {
         onTimeChange(args) {
             let m = moment(args.value);
             m.seconds(0);
-            this.selectedTime = m;
+            this.selectedTime = m.toDate();
         },
         onSelect() {
             this.$modal.close(this.selectedTime);

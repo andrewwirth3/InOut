@@ -1,7 +1,8 @@
 <template>
     <GridLayout columns="*"
-                rows="*,auto"
-                height="85%">
+                rows="*,auto,auto"
+                height="85%"
+                class="page">
         <RadCalendar :viewMode="viewMode"
                      :selectionMode="selectionMode"
                      :monthViewStyle="style"
@@ -13,9 +14,15 @@
         <Button :text="btnText"
                 row="1"
                 col="0"
-                class="m-y-5 btn btn-primary"
+                class="btn btn-primary"
                 :isEnabled="btnActive"
                 @tap="onSelect">
+        </Button>
+        <Button text="Cancel"
+                row="2"
+                col="0"
+                class="btn btn-secondary"
+                @tap="$modal.close(null)">
         </Button>
     </GridLayout>
 </template>
