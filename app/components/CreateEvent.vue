@@ -2,7 +2,7 @@
     <Page class="page"
           @swipe="onSwipe">
         <ActionBar class="action-bar"
-                   :title="title"
+                   title="New Event"
                    backgroundColor="#191919"
                    color="#777777">
             <NavigationButton text="Go back"
@@ -88,7 +88,6 @@ export default {
                 squad: null,
                 squadName: ''
             },
-            title: 'New Event',
             today: moment()
                 .add(-1, 'days')
                 .toDate()
