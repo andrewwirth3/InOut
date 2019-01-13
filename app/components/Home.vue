@@ -192,7 +192,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .main-tab-active {
 	color: green;
 }
